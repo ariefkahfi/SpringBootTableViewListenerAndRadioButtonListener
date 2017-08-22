@@ -1,7 +1,5 @@
 package com.arief.fx.controllers;
 
-import static org.mockito.Mockito.never;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.UUID;
@@ -21,8 +19,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -59,14 +57,17 @@ public class FormController extends AbstractFxController{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		 tg = new ToggleGroup();
-	    
+		
 		 setUpRadioButton(tg);
 		 
 		 tg.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-			    rb = (RadioButton)newValue; 
+				rb = (RadioButton)newValue;
+				if(rb!=null) {
+					System.err.println(rb.getText());
+				}
 			}
 		});
 		 
@@ -86,9 +87,9 @@ public class FormController extends AbstractFxController{
 				p.setIdPegawai(uuid.toString());
 				p.setNamaPegawai(fieldNama.getText().trim());
 				
-			   	if(rb.getText().trim().equals("Male") || rb.getText().contains("male")) {
+			   	if(rb.getText().trim().equals("Male")) {
 					p.setGender(Gender.Male);
-				}else if(rb.getText().trim().equals("Female") || rb.getText().contains("female")) {
+				}else if(rb.getText().trim().equals("Female")) {
 					p.setGender(Gender.Female);
 				}else{
 					// rb ==  null
@@ -101,7 +102,7 @@ public class FormController extends AbstractFxController{
 			}
 		}catch (Exception e) {
 			buatAlert("Penyimpanan Data Gagal , " + " RadioButton belum dipilih", AlertType.ERROR);
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	
@@ -125,5 +126,7 @@ public class FormController extends AbstractFxController{
 		alert.getButtonTypes().setAll(ok);
 		alert.show();
 	}
+
+
 	
 }

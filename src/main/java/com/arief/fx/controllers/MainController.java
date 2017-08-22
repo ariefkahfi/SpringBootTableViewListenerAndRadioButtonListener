@@ -55,6 +55,7 @@ public class MainController extends AbstractFxController {
 	public void showForm(ActionEvent ev) {
 		Stage st = (Stage) ((Node)ev.getSource()).getScene().getWindow();
 		stageReload(st, FormController.class, "form.fxml");
+		
 	}
 	
 	public void showData(ActionEvent ev) {

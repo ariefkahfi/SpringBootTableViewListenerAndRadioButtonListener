@@ -20,8 +20,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -44,18 +46,36 @@ public class TableController extends AbstractFxController{
 	private TableColumn<Pegawai, Gender> columnGender;
 	
 	
+	private ContextMenu buildContextMenu(TableView tv) {
+		ContextMenu contextMenu = new ContextMenu();
+		
+		MenuItem close = new MenuItem("deselect");
+		close.setOnAction(e->{
+			tv.getSelectionModel().clearSelection();
+		});
+		
+		contextMenu.getItems().add(close);
+		return contextMenu;
+	}
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		setUpColumns();
 		refreshData();
+		
+		ContextMenu cm = buildContextMenu(tableView);
+		
+		tableView.setContextMenu(cm);
+
 		
 		tableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Pegawai>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Pegawai> observable, Pegawai oldValue, Pegawai newValue)
 			{
+				
+				int idx =tableView.getSelectionModel().getSelectedIndex();
 				if(newValue!=null) {
-					//System.err.println(newValue.toString());
 					buatAlert(newValue);
 				}
 			}

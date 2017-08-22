@@ -3,11 +3,13 @@ package com.arief.fx.controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.arief.fx.configuration.AbstractFxController;
 import com.arief.fx.entity.Gender;
 import com.arief.fx.entity.Pegawai;
+import com.arief.fx.services.PegawaiRepository;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -22,6 +24,10 @@ public class DialogController  extends AbstractFxController{
 	private TextArea labelId;
 	
 	
+	@Autowired
+	private PegawaiRepository repo;
+	
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
@@ -30,9 +36,12 @@ public class DialogController  extends AbstractFxController{
 	
 	
 	public void setLabelText(Pegawai p) {
-		String id = p.getIdPegawai();
-		String nama = p.getNamaPegawai();
-		String gender =(String)((Gender)p.getGender()).toString();
+		
+		Pegawai findOne = repo.findOne(p.getIdPegawai());
+		
+		String id = findOne.getIdPegawai();
+		String nama = findOne.getNamaPegawai();
+		String gender =(String)((Gender)findOne.getGender()).toString();
 		
 		labelId.setText(id);
 		labelNama.setText(nama);
